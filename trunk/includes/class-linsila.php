@@ -68,7 +68,7 @@ class Linsila {
 	 */
 	public function __construct() {
 
-		$this->linsila = 'linsila';
+		$this->plugin_slug = 'linsila';
 		$this->version = '1.0.0';
 
 		$this->load_dependencies();
@@ -190,7 +190,7 @@ class Linsila {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_linsila() {
-		return $this->linsila;
+		return $this->plugin_slug;
 	}
 
 	/**
