@@ -58,6 +58,22 @@ class Linsila {
 	protected $version;
 
 	/**
+	 * All the settings options stored in db
+	 *
+	 * @since    2.5.0
+	 * @access   protected
+	 * @var      array    $settings  Saved settings
+	 */
+	protected $settings;
+
+	/**
+	 * Default values
+	 * @since   2.5.0
+	 * @access  private
+	 * @var array of defaults
+	 */
+	private $defaults;
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -72,6 +88,7 @@ class Linsila {
 		$this->version = '1.0.0';
 
 		$this->load_dependencies();
+		$this->load_settings();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
@@ -97,10 +114,16 @@ class Linsila {
 	private function load_dependencies() {
 
 		/**
+		 * All functions for plugin
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
+
+		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
+
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -118,6 +141,9 @@ class Linsila {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-linsila-public.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-cpts.php';
+
 
 		$this->loader = new Linsila_Loader();
 
@@ -151,6 +177,10 @@ class Linsila {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Linsila_Admin( $this->get_linsila(), $this->get_version() );
+		$cpts = new Linsila_Cpts( $this->get_linsila(), $this->get_version() );
+
+		//Register all custom post types
+		$this->loader->add_action( 'init', $cpts, 'register_cpts' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -213,4 +243,23 @@ class Linsila {
 		return $this->version;
 	}
 
+	/**
+	 * Load all settings and defaults
+	 * @since   1.0.0
+	 */
+	private function load_opts() {
+		global $linsila_opts;
+
+		$linsila_opts = $this->settings =  wp_parse_args( get_option( 'linsila_settings', $this->defaults ), $this->defaults ) ;
+	}
+
+	/**
+	 * Load plugin defaults
+	 * @since   1.0.0
+	 */
+	public function load_defaults() {
+
+		$defaults       = array();
+		$this->defaults = apply_filters( 'linsila/load_defaults', $defaults );
+	}
 }

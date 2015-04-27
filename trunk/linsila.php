@@ -30,6 +30,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+define( 'LINSILA_PLUGIN_DIR' , plugin_dir_path(__FILE__) );
+define( 'LINSILA_PLUGIN_URL' , plugin_dir_url(__FILE__) );
+define( 'LINSILA_PLUGIN_HOOK' , basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ) );
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-linsila-activator.php

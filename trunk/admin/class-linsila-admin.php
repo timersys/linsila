@@ -29,7 +29,7 @@ class Linsila_Admin {
 	 * @access   private
 	 * @var      string    $linsila    The ID of this plugin.
 	 */
-	private $linsila;
+	private $plugin_slug;
 
 	/**
 	 * The version of this plugin.
