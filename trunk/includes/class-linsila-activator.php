@@ -30,14 +30,14 @@ class Linsila_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-	global $linsila_opts;
+
 		// Checks if the main page option exists
-		if ( ! linsila_get_opt( 'linsila', false ) ) {
+		if ( ! linsila_get_opt( 'linsila_page', false ) ) {
 			// Main Page ( Dashboard?)
 			$linsila = wp_insert_post(
 				array(
 					'post_title'     => __( 'Linsila', 'linsila' ),
-					'post_content'   => '[linsila]',
+					'page_template'  => '',
 					'post_status'    => 'publish',
 					'post_author'    => 1,
 					'post_type'      => 'page',

@@ -90,6 +90,7 @@ class Linsila {
 		$this->load_dependencies();
 		$this->load_settings();
 		$this->set_locale();
+		$this->add_templates();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -113,37 +114,14 @@ class Linsila {
 	 */
 	private function load_dependencies() {
 
-		/**
-		 * All functions for plugin
-		 */
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
-
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
-
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-i18n.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-linsila-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-linsila-public.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-cpts.php';
-
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-templates.php';
 
 		$this->loader = new Linsila_Loader();
 
@@ -247,7 +225,7 @@ class Linsila {
 	 * Load all settings and defaults
 	 * @since   1.0.0
 	 */
-	private function load_opts() {
+	private function load_settings() {
 		global $linsila_opts;
 
 		$linsila_opts = $this->settings =  wp_parse_args( get_option( 'linsila_settings', $this->defaults ), $this->defaults ) ;
@@ -261,5 +239,16 @@ class Linsila {
 
 		$defaults       = array();
 		$this->defaults = apply_filters( 'linsila/load_defaults', $defaults );
+	}
+
+	private function add_templates() {
+		$templates = new Linsila_Templates( $this->plugin_slug, $this->version);
+
+		// Add a filter to the page attributes metabox to inject our template into the page template cache.
+		$this->loader->add_filter( 'page_attributes_dropdown_pages_args', $templates, 'register_project_templates');
+		// Add a filter to the save post in order to inject out template into the page cache
+		$this->loader->add_filter( 'wp_insert_post_data', $templates, 'register_project_templates');
+		// Add a filter to the template include in order to determine if the page has our template assigned and return it's path
+		$this->loader->add_filter( 'template_include', $templates, 'view_project_template');
 	}
 }
