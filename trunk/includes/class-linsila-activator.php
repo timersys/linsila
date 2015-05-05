@@ -37,7 +37,7 @@ class Linsila_Activator {
 			$linsila = wp_insert_post(
 				array(
 					'post_title'     => __( 'Linsila', 'linsila' ),
-					'page_template'  => '',
+					'page_template'  => 'templates/linsila.php',
 					'post_status'    => 'publish',
 					'post_author'    => 1,
 					'post_type'      => 'page',
