@@ -100,4 +100,17 @@ class Linsila_Public {
 
 	}
 
+	public function remove_all_actions(){
+		if( 'linsila.php' != get_page_template_slug( get_queried_object_id() ))
+			return;
+		global $wp_scripts, $wp_styles;
+		echo '<pre>';
+		var_dump( $wp_scripts );
+		var_dump( $wp_styles );
+		echo '</pre>';
+
+		remove_all_actions('wp_header');
+		remove_all_actions('wp_print_scripts');
+		remove_all_actions('wp_footer');
+	}
 }

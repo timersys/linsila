@@ -31,22 +31,30 @@ class Linsila_Activator {
 	 */
 	public static function activate() {
 
-		// Checks if the main page option exists
-		if ( ! linsila_get_opt( 'linsila_page', false ) ) {
-			// Main Page ( Dashboard?)
-			$linsila = wp_insert_post(
-				array(
-					'post_title'     => __( 'Linsila', 'linsila' ),
-					'page_template'  => 'templates/linsila.php',
-					'post_status'    => 'publish',
-					'post_author'    => 1,
-					'post_type'      => 'page',
-					'comment_status' => 'closed'
-				)
-			);
-			$options['linsila_page']         = $linsila;
-		}
+		self::create_pages();
 
+
+	}
+
+	/**
+	 * All pages needed for plugin
+	 * @since 1.0.0
+	 * return void
+	 */
+	private static function create_pages() {
+
+		$pages = apply_filters( 'linsila/install/create_pages', array(
+			'linsila' => array(
+				'name'    => _x( 'linsila', 'Page slug', 'linsila' ),
+				'title'   => _x( 'Linsila', 'Page title', 'linsila' ),
+				'content' => '',
+				'template'=> 'templates/linsila.php'
+			)
+		) );
+
+		foreach ( $pages as $key => $page ) {
+			linsila_create_page( esc_sql( $page['name'] ), 'linsila_' . $key . '_page_id', $page['title'], $page['content'], ! empty( $page['template'] ) ? $page['template'] : '' , ! empty( $page['parent'] ) ? wc_get_page_id( $page['parent'] ) : '' );
+		}
 	}
 
 }

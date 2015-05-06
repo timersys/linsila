@@ -49,7 +49,7 @@ class Linsila_Templates {
 
 		// Add your templates to this array.
 		$this->templates = array(
-			'templates/linsila.php'     => __( 'Linsila', $this->plugin_slug ),
+			'linsila.php'     => __( 'Linsila', $this->plugin_slug ),
 
 		);
 		// adding support for theme templates to be merged and shown in dropdown

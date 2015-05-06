@@ -1,5 +1,17 @@
 <?php
 /**
+ * Linsila Admin Functions
+ *
+ * @author      Damian Logghe
+ * @package     Linsila/Includes/Functions
+ * @version     1.0.0
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+/**
  * Get an option from plugin settings
  *
  * Looks to see if the specified setting exists, returns default if not
@@ -14,3 +26,4 @@ function linsila_get_opt( $key, $default ){
 	$value = apply_filters( 'linsila/get_option', $value, $key, $default );
 	return apply_filters( 'linsila/get_option/' . $key, $value, $key, $default );
 }
+

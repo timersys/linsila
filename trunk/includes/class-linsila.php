@@ -113,9 +113,8 @@ class Linsila {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-admin-functions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-page-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-i18n.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-linsila-admin.php';
@@ -178,6 +177,8 @@ class Linsila {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		// if we ar ein linsila remove everything from header/footer
+		$this->loader->add_action( 'wp', $plugin_public, 'remove_all_actions' );
 
 	}
 
