@@ -61,19 +61,8 @@ class Linsila_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Linsila_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Linsila_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/linsila-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'css/foundation.min.css', array(), $this->version, 'all' );
 
 	}
 
@@ -84,33 +73,59 @@ class Linsila_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Linsila_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Linsila_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/linsila-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'js/foundation.min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'lin-modernizer', plugin_dir_url( __FILE__ ) . 'js/vendor/modernizr.js', '', $this->version, false );
+		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/linsila-public.js', array( 'jquery' ), $this->version, true );
 
 	}
 
+
+	/**
+	 * If we are in our template strip everything out and leave it clean
+	 * @since 1.0.0
+	 */
 	public function remove_all_actions(){
 		if( 'linsila.php' != get_page_template_slug( get_queried_object_id() ))
 			return;
 		global $wp_scripts, $wp_styles;
-		echo '<pre>';
-		var_dump( $wp_scripts );
-		var_dump( $wp_styles );
-		echo '</pre>';
 
+		$exceptions = array(
+			'admin-bar',
+			'jquery',
+			'query-monitor',
+			'lin-modernizer',
+			'lin-foundation'
+		);
+
+		foreach( $wp_scripts->queue as $handle ){
+			if( in_array($handle, $exceptions))
+				continue;
+			wp_dequeue_script($handle);
+		}
+
+		foreach( $wp_styles->queue as $handle ){
+			if( in_array($handle, $exceptions) )
+				continue;
+			wp_dequeue_style($handle);
+		}
+
+		// Now remove actions
+		$action_exceptions = array(
+			'wp_print_footer_scripts',
+			'wp_admin_bar_render',
+
+		);
+
+		// No core action in header
 		remove_all_actions('wp_header');
-		remove_all_actions('wp_print_scripts');
-		remove_all_actions('wp_footer');
+
+		global $wp_filter;
+		foreach( $wp_filter['wp_footer'] as $priority => $handle ){
+
+			if( in_array( key($handle), $action_exceptions ) )
+				continue;
+			unset( $wp_filter['wp_footer'][$priority] );
+		}
+
 	}
 }

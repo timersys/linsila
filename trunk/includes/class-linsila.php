@@ -85,7 +85,7 @@ class Linsila {
 	public function __construct() {
 
 		$this->plugin_slug = 'linsila';
-		$this->version = '1.0.0';
+		$this->version = site_url() == 'http://local.dev/linsila' ? time() : '1.0.0';
 
 		$this->load_dependencies();
 		$this->load_settings();
@@ -177,8 +177,8 @@ class Linsila {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		// if we ar ein linsila remove everything from header/footer
-		$this->loader->add_action( 'wp', $plugin_public, 'remove_all_actions' );
+		// if we are in linsila remove everything from header/footer, scripts, styles
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'remove_all_actions',99 );
 
 	}
 
