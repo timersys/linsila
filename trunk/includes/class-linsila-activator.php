@@ -48,7 +48,7 @@ class Linsila_Activator {
 				'name'    => _x( 'linsila', 'Page slug', 'linsila' ),
 				'title'   => _x( 'Linsila', 'Page title', 'linsila' ),
 				'content' => '',
-				'template'=> 'templates/linsila.php'
+				'template'=> 'linsila.php'
 			)
 		) );
 

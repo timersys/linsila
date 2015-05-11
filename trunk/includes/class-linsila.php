@@ -27,7 +27,7 @@
  * @subpackage Linsila/includes
  * @author     Damian Logghe <damian@timersys.com>
  */
-class Linsila {
+final class Linsila {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -73,12 +73,63 @@ class Linsila {
 	 * @var array of defaults
 	 */
 	private $defaults;
+
+
+	/**
+	 * Plugin Instance
+	 * @since 1.0.0
+	 * @var The Linsila plugin instance
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Main Linsila Instance
+	 *
+	 * Ensures only one instance of WSI is loaded or can be loaded.
+	 *
+	 * @since 1.0.0
+	 * @static
+	 * @see Linsila()
+	 * @return Linsila - Main instance
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Cloning is forbidden.
+	 * @since 1.0.0
+	 */
+	public function __clone() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+	}
+
+	/**
+	 * Unserializing instances of this class is forbidden.
+	 * @since 1.0.0
+	 */
+	public function __wakeup() {
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'wsi' ), '2.1' );
+	}
+
+	/**
+	 * Auto-load in-accessible properties on demand.
+	 * @param mixed $key
+	 * @since 1.0.0
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		if ( in_array( $key, array( 'payment_gateways', 'shipping', 'mailer', 'checkout' ) ) ) {
+			return $this->$key();
+		}
+	}
+
+
 	/**
 	 * Define the core functionality of the plugin.
-	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
 	 *
 	 * @since    1.0.0
 	 */
@@ -179,6 +230,9 @@ class Linsila {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		// if we are in linsila remove everything from header/footer, scripts, styles
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'remove_all_actions',99 );
+		// check if user is authorized to be in linsila
+		$this->loader->add_action( 'wp', $plugin_public, 'check_user_authorization' );
+
 
 	}
 

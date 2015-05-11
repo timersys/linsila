@@ -85,7 +85,7 @@ class Linsila_Public {
 	 * @since 1.0.0
 	 */
 	public function remove_all_actions(){
-		if( 'linsila.php' != get_page_template_slug( get_queried_object_id() ))
+		if( ! is_linsila_page() )
 			return;
 		global $wp_scripts, $wp_styles;
 
@@ -127,5 +127,24 @@ class Linsila_Public {
 			unset( $wp_filter['wp_footer'][$priority] );
 		}
 
+	}
+
+	public function check_user_authorization(){
+		if( ! is_linsila_page() )
+			return;
+
+		$authorized = false;
+		if( ! is_user_logged_in() )
+			wp_safe_redirect( wp_login_url());
+
+		$authorized_roles = apply_filters('linsila/authorized_roles', array('administrator'));
+
+		foreach( $authorized_roles as $role ){
+			if( current_user_can($role) )
+				$authorized = true;
+		}
+
+		if( !$authorized )
+			wp_safe_redirect( wp_login_url());
 	}
 }

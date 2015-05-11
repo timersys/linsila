@@ -63,17 +63,14 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-linsila.php';
 
 /**
  * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
  * @since    1.0.0
  */
-function run_linsila() {
+function Linsila() {
 
-	$plugin = new Linsila();
+	$plugin = Linsila::instance();
 	$plugin->run();
+	return $plugin;
 
 }
-run_linsila();
+
+$GLOBALS['Linsila'] = Linsila();

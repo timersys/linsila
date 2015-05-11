@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $page key
  * @return int
  */
-function wc_get_page_id( $page ) {
+function linsila_get_page_id( $page ) {
 
 	$page = apply_filters( 'linsila/get_' . $page . '_page_id', get_option('linsila_' . $page . '_page_id' ) );
 
@@ -82,4 +82,15 @@ function linsila_create_page( $slug, $option = '', $page_title = '', $page_conte
 	}
 
 	return $page_id;
+}
+
+
+/**
+ * Check if we are in linsila page
+ * @return bool
+ */
+function is_linsila_page(){
+	if( 'linsila.php' != get_page_template_slug( get_queried_object_id() ))
+		return false;
+	return true;
 }
