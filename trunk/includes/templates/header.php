@@ -94,4 +94,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 </header><!-- .site-header -->
 
 
-	<div id="content" class="site-content">
+<div id="linsila-content" class="row">

@@ -11,8 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 include_once 'header.php';
-
-
-echo 'hi';
+include_once 'dashboard/index.php';
 include_once 'footer.php';
 

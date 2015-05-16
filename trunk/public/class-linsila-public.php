@@ -61,8 +61,8 @@ class Linsila_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/linsila-public.css', array(), $this->version, 'all' );
 		wp_enqueue_style( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'css/foundation.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/linsila-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -94,7 +94,8 @@ class Linsila_Public {
 			'jquery',
 			'query-monitor',
 			'lin-modernizer',
-			'lin-foundation'
+			'lin-foundation',
+			'linsila'
 		);
 
 		foreach( $wp_scripts->queue as $handle ){
@@ -129,11 +130,18 @@ class Linsila_Public {
 
 	}
 
+	/**
+	 * Check if user is logged and then check if authorized to be here
+	 */
 	public function check_user_authorization(){
 		if( ! is_linsila_page() )
 			return;
 
 		$authorized = false;
+		echo '<pre>';
+		var_dump(get_permalink( linsila_get_page_id('linsila')));
+		echo '<pre>';
+		die();
 		if( ! is_user_logged_in() )
 			wp_safe_redirect( wp_login_url());
 

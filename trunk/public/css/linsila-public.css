@@ -1,4 +1,105 @@
 /**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
+ * General styles
  */
+body{
+    background: #86B4CF;
+}
+#linsila-content,
+#linsila-content *{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.contain-to-grid,
+.top-bar,
+.top-bar-section ul li,
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section .has-form
+{
+    background: #6792AB;
+}
+
+.top-bar-section>ul>.divider,
+.top-bar-section>ul>[role="separator"]{
+    border-right: solid 1px #73A2BD;
+}
+#linsila-content{
+    padding: 3em 0;
+}
+/**
+* Dashboard
+*/
+/* ADD LISTS */
+.add-a-list{
+    min-height: 30px;
+    padding: 4px;
+    -webkit-transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
+    transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
+    width: 350px;
+    border-radius: 3px;
+    background: #E1E1E1;
+}
+.add-a-list input.list-name {
+    width: 245px;
+    float: left;
+    box-shadow: inset 0 1px 8px rgba(0, 0, 0, .15);
+    display: block;
+    margin: 0;
+    -webkit-transition: margin 85ms ease-in, background 85ms ease-in;
+    transition: margin 85ms ease-in, background 85ms ease-in;
+}
+.add-a-list input.list-name:focus {
+    border-color: #ccc;
+}
+.add-a-list.idle .edit-controls{
+    display: none;
+}
+.add-a-list .edit-controls{
+    display: inline-block;
+}
+.add-a-list.idle{
+    background: rgba(0,0,0,.12);
+    cursor: pointer;
+    color: #fff;
+}
+.add-a-list.idle:hover {
+    background: rgba(0,0,0,.3);
+}
+.add-a-list.idle .list-name {
+    background: 0 0;
+    border-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    display: none;
+    margin: 0;
+}
+.add-a-list.idle .placeholder {
+    display: block;
+}
+.add-a-list .placeholder {
+    display: none;
+    padding: 7px;
+    color: #fff;
+    -webkit-transition: color 85ms ease-in;
+    transition: color 85ms ease-in;
+}
+.add-a-list.idle .edit-controls {
+    height: 0;
+    margin: 0;
+}
+.add-a-list .edit-controls {
+    -webkit-transition: margin 85ms ease-in,height 85ms ease-in;
+    transition: margin 85ms ease-in,height 85ms ease-in;
+    overflow: hidden;
+    margin: 0;
+}
+.add-a-list button.confirm {
+    margin: 2px 6px;
+    float: left;
+}
+.add-a-list a.cancel {
+    float: left;
+    line-height: 1.5;
+    font-size: 1.5em;
+}
+
