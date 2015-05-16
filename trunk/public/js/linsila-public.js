@@ -19,7 +19,8 @@
 
         $('.js-save-list').click(function(e){
             e.preventDefault();
-
+            var button = $(this);
+            button.prop('disabled','disabled').addClass('ajax-loading');
         });
 
     });

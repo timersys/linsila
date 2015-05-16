@@ -138,12 +138,9 @@ class Linsila_Public {
 			return;
 
 		$authorized = false;
-		echo '<pre>';
-		var_dump(get_permalink( linsila_get_page_id('linsila')));
-		echo '<pre>';
-		die();
+
 		if( ! is_user_logged_in() )
-			wp_safe_redirect( wp_login_url());
+			wp_safe_redirect( wp_login_url(get_permalink( linsila_get_page_id('linsila'))));
 
 		$authorized_roles = apply_filters('linsila/authorized_roles', array('administrator'));
 
@@ -153,6 +150,6 @@ class Linsila_Public {
 		}
 
 		if( !$authorized )
-			wp_safe_redirect( wp_login_url());
+			wp_safe_redirect( wp_login_url(get_permalink( linsila_get_page_id('linsila'))));
 	}
 }
