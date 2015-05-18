@@ -3,7 +3,7 @@
  * The class where all templates are loaded
  *
  * @package    Linsila
- * @subpackage Linsila/admin
+ * @subpackage Linsila/includes
  * @author     Damian Logghe <damian@timersys.com>
  */
 class Linsila_Templates {

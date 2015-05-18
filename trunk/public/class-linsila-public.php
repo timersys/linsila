@@ -75,8 +75,11 @@ class Linsila_Public {
 
 		wp_enqueue_script( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'js/foundation.min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( 'lin-modernizer', plugin_dir_url( __FILE__ ) . 'js/vendor/modernizr.js', '', $this->version, false );
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/linsila-public.js', array( 'jquery' ), $this->version, true );
-
+		wp_enqueue_script( 'linsila', plugin_dir_url( __FILE__ ) . 'js/linsila-public.js', array( 'jquery' ), $this->version, true );
+		wp_localize_script( 'linsila', 'linsila', array(
+			'ajax_url'  => admin_url('admin-ajax.php'),
+			'nonce'     =>  wp_create_nonce('ajax-linsila-nonce')
+		));
 	}
 
 

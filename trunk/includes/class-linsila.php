@@ -83,6 +83,11 @@ final class Linsila {
 	protected static $_instance = null;
 
 	/**
+	 * @var linsila lists class
+	 */
+	private $lists;
+
+	/**
 	 * Main Linsila Instance
 	 *
 	 * Ensures only one instance of WSI is loaded or can be loaded.
@@ -144,6 +149,7 @@ final class Linsila {
 		$this->add_templates();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_ajax_hooks();
 
 	}
 
@@ -172,6 +178,7 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-linsila-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-cpts.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-templates.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-lists.php';
 
 		$this->loader = new Linsila_Loader();
 
@@ -236,6 +243,18 @@ final class Linsila {
 
 	}
 
+	/**
+	 * Register all of the hooks related to ajax
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_ajax_hooks(){
+		$this->lists = new Linsila_Lists( $this->get_linsila(), $this->get_version() );
+
+		$this->loader->add_action( 'wp_ajax_linsila_create_list', $this->lists, 'ajax_create_list' );
+	}
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
