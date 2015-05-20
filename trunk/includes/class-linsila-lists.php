@@ -42,7 +42,16 @@ class Linsila_Lists {
 	public function ajax_create_list(){
 		check_ajax_referer( 'ajax-linsila-nonce', 'nonce' );
 
-		echo json_encode( array('success' => true) );
+		$term     = esc_attr( $_POST['list_name']);
+		$taxonomy = 'linsila_list';
+ 		$new_term = wp_insert_term( $term, $taxonomy, $args = array() );
+		if( is_wp_error( $new_term ) ) {
+			echo json_encode( array( 'error' => $new_term->get_error_message() ) );
+			die();
+		}
+
+		echo json_encode( array( 'success' => $new_term ) );
+
 		die();
 	}
 }

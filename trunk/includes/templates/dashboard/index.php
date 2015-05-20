@@ -8,8 +8,21 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
-}
-?>
+}?>
+<div id="lists-container">
+	<?php
+	// Grab all lists
+	$lists = linsila_get_lists();
+	foreach( $lists as $list ) {
+		include( 'partials/list.php' );
+	}
+	?>
+</div>
+<ul id="list-drop" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+	<li><a href="#">This is a link</a></li>
+	<li><a href="#">This is another</a></li>
+	<li><a href="#">Yet another</a></li>
+</ul>
 <div class="add-a-list idle">
 	<form>
 		<span class="placeholder"><?php _e('Add a list...', 'linsila');?></span>

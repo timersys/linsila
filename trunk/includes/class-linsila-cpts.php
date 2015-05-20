@@ -41,13 +41,20 @@ class Linsila_Cpts {
 	}
 
 	/**
-	 * Register the stylesheets for the admin area.
+	 * Register the cpts needed in plugin
 	 *
 	 * @since    1.0.0
 	 */
 	public function register_cpts() {
 
+		$this->linsila_projects();
+		$this->register_taxonomies();
+	}
 
+	/**
+	 * Linsila projects cpt
+	 */
+	private function linsila_projects(){
 
 		$labels = array(
 			'name'               =>  __( 'Linsila', $this->plugin_slug ),
@@ -96,4 +103,10 @@ class Linsila_Cpts {
 		register_post_type( 'linsila_project', $args );
 	}
 
+	/**
+	 * Create taxonomies instance
+	 */
+	private function register_taxonomies() {
+		$taxonomies = new Linsila_Taxonomies( $this->plugin_slug, $this->version);
+	}
 }

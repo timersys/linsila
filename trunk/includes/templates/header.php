@@ -95,3 +95,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 <div id="linsila-content" class="row">
+	<div data-alert class="alert-box radius">
+		<span></span>
+		<a href="#" class="close">&times;</a>
+	</div>

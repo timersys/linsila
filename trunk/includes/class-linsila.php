@@ -172,11 +172,13 @@ final class Linsila {
 	private function load_dependencies() {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-admin-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-page-functions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-lists-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-i18n.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-linsila-admin.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-linsila-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-cpts.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-taxonomies.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-templates.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-lists.php';
 
@@ -214,7 +216,7 @@ final class Linsila {
 		$plugin_admin = new Linsila_Admin( $this->get_linsila(), $this->get_version() );
 		$cpts = new Linsila_Cpts( $this->get_linsila(), $this->get_version() );
 
-		//Register all custom post types
+		//Register all custom post types & taxonomies
 		$this->loader->add_action( 'init', $cpts, 'register_cpts' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );

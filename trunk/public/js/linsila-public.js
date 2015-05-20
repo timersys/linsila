@@ -5,6 +5,11 @@
     var Linsila = function() {
         $(document).ready(function () {
             /**
+             * Lists
+             */
+            sort($('#lists-container'));
+
+            /**
              * Add lists
              */
             $('.add-a-list').click(function (e) {
@@ -20,12 +25,23 @@
 
             $('.js-save-list').click(function (e) {
                 e.preventDefault();
-                var button = $(this),
-                    data   = { 'nonce' : linsila.nonce,'action' : 'linsila_create_list', 'list_name' : button.closest('.add-a-list').find('.list-name').val()};
+                var button      = $(this),
+                    list_box    = button.closest('.add-a-list'),
+                    input       = list_box.find('.list-name'),
+                    input_val   = input.val(),
+                    data        = { 'nonce' : linsila.nonce,'action' : 'linsila_create_list', 'list_name' : input_val};
                 button.prop('disabled', 'disabled').addClass('ajax-loading');
-               console.log(data);
+                console.log(data);
                 var success_cb = function (data) {
                     button.prop('disabled', false).removeClass('ajax-loading');
+                    input.val('');
+                    if( data.success ) {
+                        list_box.addClass('idle');
+                        $('<div class="list" data-id="'+data.success.term_id+'"><div class="list-header"><div class="handle">|||</div>'+input_val+'<div class="list-actions">x</div></div></div>').appendTo('#lists-container');
+                    }
+                    if( data.error ) {
+                        show_alert( data.error, 'alert');
+                    }
                 }
                 request(data,success_cb);
             });
@@ -43,6 +59,26 @@
             }
         });
 
+        /**
+         * Create sortable element
+         * @param element
+         */
+        function sort(element){
+            element.sortable({
+                animation : 150,
+                handle: ".handle"
+            });
+        }
+        /**
+         * Display simple alerts
+         * @param message
+         * @param alert_mode
+         */
+        function show_alert( message, alert_mode){
+            var alert_box = $('.alert-box');
+            alert_box.find('span').text(message);
+            alert_box.addClass(alert_mode).fadeIn().delay(5000).fadeOut();
+        }
         /**
          * Ajax requests
          * @param data

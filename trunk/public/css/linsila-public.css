@@ -46,9 +46,35 @@ body{
 .button.ajax-loading i{
     display: inline-block;
 }
+.alert-box{
+    display: none;
+}
 /**
 * Dashboard
 */
+
+/* LIST */
+.list{
+    min-height: 30px;
+    padding: 5px 10px;
+    -webkit-transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
+    transition: background 85ms ease-in,opacity 40ms ease-in,border-color 85ms ease-in;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    background: #E1E1E1;
+}
+.list-header{
+    font-weight: bold;
+}
+.list-actions {
+    float: right;
+}
+.handle{
+    float: left;
+    margin-right: 10px;
+    cursor: move;
+    cursor: -webkit-grabbing;
+}
 /* ADD LISTS */
 .add-a-list{
     min-height: 30px;
