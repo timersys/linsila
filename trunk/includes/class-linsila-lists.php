@@ -39,6 +39,10 @@ class Linsila_Lists {
 		$this->version = $version;
 	}
 
+	/**
+	 * Ajax function that saves the new term (list)
+	 * @return String json response
+	 */
 	public function ajax_create_list(){
 		check_ajax_referer( 'ajax-linsila-nonce', 'nonce' );
 
@@ -51,6 +55,24 @@ class Linsila_Lists {
 		}
 
 		echo json_encode( array( 'success' => $new_term ) );
+
+		die();
+	}
+
+	/**
+	 * Ajax function that saves the new lists sorting order
+	 * @return String json response
+	 */
+	public function ajax_sort_lists(){
+		check_ajax_referer( 'ajax-linsila-nonce', 'nonce' );
+
+		$order  = $_POST['lists_order'];
+		$i      = 0;
+
+		if( ! is_array($order) )
+			die();
+
+		update_option('linsila_lists_sorting', $order);
 
 		die();
 	}

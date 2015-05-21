@@ -31,7 +31,7 @@
                     input_val   = input.val(),
                     data        = { 'nonce' : linsila.nonce,'action' : 'linsila_create_list', 'list_name' : input_val};
                 button.prop('disabled', 'disabled').addClass('ajax-loading');
-                console.log(data);
+
                 var success_cb = function (data) {
                     button.prop('disabled', false).removeClass('ajax-loading');
                     input.val('');
@@ -43,6 +43,7 @@
                         show_alert( data.error, 'alert');
                     }
                 }
+
                 request(data,success_cb);
             });
 
@@ -64,9 +65,16 @@
          * @param element
          */
         function sort(element){
+
             element.sortable({
                 animation : 150,
-                handle: ".handle"
+                handle: ".handle",
+                onEnd: function(evt){
+                    var order = this.toArray();
+                    console.log(order);
+                    var data        = { 'nonce' : linsila.nonce,'action' : 'linsila_sort_lists', 'lists_order' : order };
+                    request(data);
+                }
             });
         }
         /**
@@ -96,9 +104,14 @@
                     dataType: 'json',
                     timeout: 30000
                 },
+                error_cb_default = function(data) {
+                    if( data.error ){
+                        show_alert( data.error, 'alert');
+                    }
+                },
                 dataType = dataType || false,
                 success_cb = success_cb || false,
-                error_cb = error_cb || false;
+                error_cb = error_cb || error_cb_default;
 
             // Set success callback if supplied.
             if (success_cb) {

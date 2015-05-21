@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function linsila_get_lists(){
 	$lists = get_terms( 'linsila_list', array(
 		'cache_domain'      => 'linsila_lists',
+		'orderby'           => 'linsila_list_sort',
 		'hide_empty'        => 0,
 	) );
 

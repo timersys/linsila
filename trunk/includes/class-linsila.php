@@ -256,6 +256,7 @@ final class Linsila {
 		$this->lists = new Linsila_Lists( $this->get_linsila(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_ajax_linsila_create_list', $this->lists, 'ajax_create_list' );
+		$this->loader->add_action( 'wp_ajax_linsila_sort_lists', $this->lists, 'ajax_sort_lists' );
 	}
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
