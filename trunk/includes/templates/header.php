@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<!-- Button -->
 					<li class="has-form show-for-large-up">
-						<a href="http://foundation.zurb.com/docs" class="button">Get Lucky</a>
+						<a  class="add-job js-add-job radius button" data-reveal-id="js-new-job" >Add job</a>
 					</li>
 				</ul>
 				<!-- Top Bar Right Nav Elements -->

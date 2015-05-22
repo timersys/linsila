@@ -62,6 +62,7 @@ class Linsila_Public {
 	public function enqueue_styles() {
 
 		wp_enqueue_style( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'css/foundation.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'choosen-select', plugin_dir_url( __FILE__ ) . 'css/chosen.min.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/linsila-public.css', array(), $this->version, 'all' );
 
 	}
@@ -76,6 +77,7 @@ class Linsila_Public {
 		wp_enqueue_script( 'lin-foundation', plugin_dir_url( __FILE__ ) . 'js/foundation.min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( 'lin-modernizer', plugin_dir_url( __FILE__ ) . 'js/vendor/modernizr.js', '', $this->version, false );
 		wp_enqueue_script( 'linsila-sortable', plugin_dir_url( __FILE__ ) . 'js/vendor/jquery.fn.sortable.min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'choosen-select', plugin_dir_url( __FILE__ ) . 'js/vendor/chosen.jquery.min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( 'linsila', plugin_dir_url( __FILE__ ) . 'js/linsila-public.js', array( 'jquery' ), $this->version, true );
 		wp_localize_script( 'linsila', 'linsila', array(
 			'ajax_url'  => admin_url('admin-ajax.php'),
@@ -100,7 +102,8 @@ class Linsila_Public {
 			'lin-modernizer',
 			'lin-foundation',
 			'linsila',
-			'linsila-sortable'
+			'linsila-sortable',
+			'choosen-select'
 		);
 
 		foreach( $wp_scripts->queue as $handle ){

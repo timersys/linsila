@@ -60,6 +60,17 @@
             }
         });
 
+        /***
+         * ADD JOBS
+         */
+        $(document).on('opened.fndtn.reveal', '#js-new-job', function () {
+            var modal = $(this);
+            $('.js-client-dropdown').chosen({
+                no_results_text: 'Oops, nothing found! <a href="#" class="js-add-client add-client">Add new</a>'
+            });
+        });
+
+
         /**
          * Create sortable element
          * @param element
