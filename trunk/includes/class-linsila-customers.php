@@ -15,7 +15,7 @@ class Linsila_Customers {
 	 * @since    1.0.0
 	 */
 	public function __construct( ) {
-		$this->customers 
+		$this->customers
 	}
 
 
