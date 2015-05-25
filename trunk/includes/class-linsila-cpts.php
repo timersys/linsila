@@ -48,6 +48,7 @@ class Linsila_Cpts {
 	public function register_cpts() {
 
 		$this->linsila_projects();
+		$this->linsila_clients();
 		$this->register_taxonomies();
 	}
 
@@ -62,11 +63,11 @@ class Linsila_Cpts {
 			'menu_name'          => _x( 'Linsila', 'admin menu', $this->plugin_slug ),
 			'name_admin_bar'     => _x( 'Projects', 'add new on admin bar', $this->plugin_slug ),
 			'add_new'            => _x( 'Add New', 'Projects', $this->plugin_slug ),
-			'add_new_item'       => __( 'Add New Projects', $this->plugin_slug ),
-			'new_item'           => __( 'New Projects', $this->plugin_slug ),
-			'edit_item'          => __( 'Edit Projects', $this->plugin_slug ),
+			'add_new_item'       => __( 'Add New Project', $this->plugin_slug ),
+			'new_item'           => __( 'New Project', $this->plugin_slug ),
+			'edit_item'          => __( 'Edit Project', $this->plugin_slug ),
 			'view_item'          => __( 'View Projects', $this->plugin_slug ),
-			'all_items'          => __( 'All Projects', $this->plugin_slug ),
+			'all_items'          => __( 'Projects', $this->plugin_slug ),
 			'search_items'       => __( 'Search Projects', $this->plugin_slug ),
 			'parent_item_colon'  => __( 'Parent Projects:', $this->plugin_slug ),
 			'not_found'          => __( 'No Projects found.', $this->plugin_slug ),
@@ -75,8 +76,9 @@ class Linsila_Cpts {
 
 		$args = array(
 			'labels'             => $labels,
-			'public'             => false,
-			'publicly_queryable' => true,
+			'public'             => true,
+			'exclude_from_search'=> true,
+			'publicly_queryable' => false,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
@@ -101,6 +103,60 @@ class Linsila_Cpts {
 		);
 
 		register_post_type( 'linsila_project', $args );
+	}
+
+	/**
+	 * Linsila clients cpt
+	 */
+	private function linsila_clients(){
+
+		$labels = array(
+			'name'               =>  __( 'Client', $this->plugin_slug ),
+			'singular_name'      => _x( 'Client', 'post type singular name', $this->plugin_slug ),
+			'menu_name'          => _x( 'Clients', 'admin menu', $this->plugin_slug ),
+			'name_admin_bar'     => _x( 'Clients', 'add new on admin bar', $this->plugin_slug ),
+			'add_new'            => _x( 'Add New', 'Clients', $this->plugin_slug ),
+			'add_new_item'       => __( 'Add New Client', $this->plugin_slug ),
+			'new_item'           => __( 'New Client', $this->plugin_slug ),
+			'edit_item'          => __( 'Edit Client', $this->plugin_slug ),
+			'view_item'          => __( 'View Client', $this->plugin_slug ),
+			'all_items'          => __( 'Clients', $this->plugin_slug ),
+			'search_items'       => __( 'Search Clients', $this->plugin_slug ),
+			'parent_item_colon'  => __( 'Parent Clients:', $this->plugin_slug ),
+			'not_found'          => __( 'No Clients found.', $this->plugin_slug ),
+			'not_found_in_trash' => __( 'No Clients found in Trash.', $this->plugin_slug )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'exclude_from_search'=> true,
+			'publicly_queryable' => false,
+			'show_ui'            => true,
+			'show_in_nav_menus'  => false,
+			'show_in_menu'       => 'edit.php?post_type=linsila_project',
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => apply_filters('linsila/cpts/clients_slug','project') ),
+			'capability_type'    => 'post',
+			'capabilities' => array(
+				'publish_posts' 		=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'edit_posts' 			=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'edit_others_posts' 	=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'delete_posts' 			=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'delete_others_posts' 	=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'read_private_posts' 	=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'edit_post' 			=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'delete_post' 			=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+				'read_post' 			=> apply_filters( 'linsila/cpts/roles', 'manage_options'),
+			),
+			'has_archive'        => false,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'menu_icon'			 => 'dashicons-analytics',
+			'supports'           => array( 'title' )
+		);
+
+		register_post_type( 'linsila_client', $args );
 	}
 
 	/**

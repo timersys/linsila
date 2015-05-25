@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <div id="js-new-job" class="reveal-modal medium" data-reveal aria-labelledby="add-job-title" aria-hidden="true" role="dialog">
-	<h2 id="add-job-title">Add new job</h2>
+	<h3 id="job-title" class="js-job-title">Job Title........</h3> - <h4>In progress</h4>
 	<form data-abide>
 		<div class="row">
 			<div class="large-8 columns">

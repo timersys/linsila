@@ -30,9 +30,9 @@
 final class Linsila {
 
 	/**
-	 * @var Linsila_Customers $customers
+	 * @var Linsila_Clients $clients
 	 */
-	public $customers;
+	public $clients;
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -186,10 +186,10 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-taxonomies.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-templates.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-lists.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-customers.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-clients.php';
 
 		$this->loader       = new Linsila_Loader();
-		$this->customers    = new Linsila_Customers();
+		$this->clients      = new Linsila_Clients();
 	}
 
 	/**
