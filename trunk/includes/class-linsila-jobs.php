@@ -1,13 +1,13 @@
 <?php
 /**
- * The class to handle all studd related to lists
+ * The class to handle all studd related to jobs
  *
  * @package    Linsila
  * @subpackage Linsila/admin
  * @author     Damian Logghe <damian@timersys.com>
  */
 
-class Linsila_Lists {
+class Linsila_Jobs {
 	/**
 	 * The ID of this plugin.
 	 *
@@ -43,37 +43,14 @@ class Linsila_Lists {
 	 * Ajax function that saves the new term (list)
 	 * @return String json response
 	 */
-	public function ajax_create_list(){
+	public function ajax_save_job_title(){
 		check_ajax_referer( 'ajax-linsila-nonce', 'nonce' );
 
-		$term     = esc_attr( $_POST['input_val']);
-		$taxonomy = 'linsila_list';
- 		$new_term = wp_insert_term( $term, $taxonomy, $args = array() );
-		if( is_wp_error( $new_term ) ) {
-			echo json_encode( array( 'error' => $new_term->get_error_message() ) );
-			die();
-		}
 
-		echo json_encode( array( 'success' => $new_term ) );
+		echo json_encode( array( 'success' => 1 ) );
 
 		die();
 	}
 
-	/**
-	 * Ajax function that saves the new lists sorting order
-	 * @return String json response
-	 */
-	public function ajax_sort_lists(){
-		check_ajax_referer( 'ajax-linsila-nonce', 'nonce' );
 
-		$order  = $_POST['lists_order'];
-		$i      = 0;
-
-		if( ! is_array($order) )
-			die();
-
-		update_option('linsila_lists_sorting', $order);
-
-		die();
-	}
 }

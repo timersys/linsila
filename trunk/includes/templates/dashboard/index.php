@@ -23,19 +23,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<li><a href="#">This is another</a></li>
 	<li><a href="#">Yet another</a></li>
 </ul>
-<div class="add-a-list idle">
+<div class="add-a-list js-editable idle">
 	<form>
 		<span class="placeholder"><?php _e('Add a list...', 'linsila');?></span>
-		<input type="text" placeholder="<?php _e('Add a list...', 'linsila');?>" class="list-name" autocomplete="off">
-		<div class="edit-controls keep u-clearfix">
-			<button type="submit" class="button radius confirm js-save-list tiny"><?php _e('Save', 'linsila');?><i class="lin-icon-spinner6 lin-spin"></i> </button>
-			<a href="#" class="cancel js-cancel-edit">&times;</a>
-		</div>
+		<input type="text" placeholder="<?php _e('Add a list...', 'linsila');?>" class="list-name js-input" autocomplete="off" data-action="linsila_create_list">
+		<?php linsila_edit_controls( 'js-save-list' );?>
 	</form>
 </div>
 
 <div id="js-new-job" class="reveal-modal medium" data-reveal aria-labelledby="add-job-title" aria-hidden="true" role="dialog">
-	<h3 id="job-title" class="js-job-title">Job Title........</h3> - <h4>In progress</h4>
+	<div class="job-title-container js-editable idle">
+		<h3 class="job-title placeholder">Job Title........</h3>
+		<textarea name="job-title" id="job-title" class="js-input" placeholder="Job Title........" data-action="linsila_save_job_title"></textarea>
+		<?php linsila_edit_controls( 'js-save-job-title' );?>
+	</div> - <h4>In progress</h4>
 	<form data-abide>
 		<div class="row">
 			<div class="large-8 columns">

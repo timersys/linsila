@@ -10,34 +10,39 @@
             sort($('#lists-container'));
 
             /**
-             * Add lists
+             * Editable fields
              */
-            $('.add-a-list').click(function (e) {
+            $('.js-editable').click(function (e) {
                 if ($('a.js-cancel-edit').is(e.target))
                     return false;
                 $(this).removeClass('idle');
-                $(this).find('.list-name').focus();
+                var placeholder_val = $(this).find('.placeholder').text();
+                $(this).find('.js-input').val(placeholder_val).focus();
             });
-            $('.add-a-list .cancel').click(function (e) {
+            $('.js-editable .cancel').click(function (e) {
                 e.preventDefault();
-                $(this).closest('.add-a-list').addClass('idle');
+                $(this).closest('.js-editable').addClass('idle').find('.js-input').val('');
             });
+            /**
+             * Add lists
+             */
+            $('.js-save-editable').click(function (e) {
+                e.preventDefault();
+                var button          = $(this),
+                    editable_box    = button.closest('.js-editable'),
+                    input           = editable_box.find('.js-input'),
+                    input_val       = input.val(),
+                    data            = { 'nonce' : linsila.nonce,'action' : input.data('action'), 'input_val' : input_val};
 
-            $('.js-save-list').click(function (e) {
-                e.preventDefault();
-                var button      = $(this),
-                    list_box    = button.closest('.add-a-list'),
-                    input       = list_box.find('.list-name'),
-                    input_val   = input.val(),
-                    data        = { 'nonce' : linsila.nonce,'action' : 'linsila_create_list', 'list_name' : input_val};
                 button.prop('disabled', 'disabled').addClass('ajax-loading');
 
                 var success_cb = function (data) {
                     button.prop('disabled', false).removeClass('ajax-loading');
                     input.val('');
                     if( data.success ) {
-                        list_box.addClass('idle');
-                        $('<div class="list" data-id="'+data.success.term_id+'"><div class="list-header"><div class="handle">|||</div>'+input_val+'<div class="list-actions">x</div></div></div>').appendTo('#lists-container');
+                        editable_box.addClass('idle');
+                        data.input_val = input_val;
+                        editable_actions(input.data('action'), data);
                     }
                     if( data.error ) {
                         show_alert( data.error, 'alert');
@@ -46,6 +51,10 @@
 
                 request(data,success_cb);
             });
+
+            /**
+             * ADD Jobs
+             */
 
         });
 
@@ -70,6 +79,14 @@
             });
         });
 
+
+        function editable_actions( action, data ) {
+            if( action == 'linsila_create_list') {
+                $('<div class="list" data-id="'+data.success.term_id+'"><div class="list-header"><div class="handle">|||</div>'+data.input_val+'<div class="list-actions">x</div></div></div>').appendTo('#lists-container');
+            } else if (action == 'linsila_save_job_title' ) {
+                $('h3.job-title').text(data.input_val);
+            }
+        }
 
         /**
          * Create sortable element

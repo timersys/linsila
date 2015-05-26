@@ -31,8 +31,10 @@ final class Linsila {
 
 	/**
 	 * @var Linsila_Clients $clients
+	 * @var Linsila_Jobs $jobs
 	 */
 	public $clients;
+	public $jobs;
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -178,6 +180,7 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-admin-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-page-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-lists-functions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-template-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-i18n.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-linsila-admin.php';
@@ -187,6 +190,7 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-templates.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-lists.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-clients.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-jobs.php';
 
 		$this->loader       = new Linsila_Loader();
 		$this->clients      = new Linsila_Clients();
@@ -260,9 +264,11 @@ final class Linsila {
 	 */
 	private function define_ajax_hooks(){
 		$this->lists = new Linsila_Lists( $this->get_linsila(), $this->get_version() );
+		$this->jobs  = new Linsila_Jobs( $this->get_linsila(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_ajax_linsila_create_list', $this->lists, 'ajax_create_list' );
 		$this->loader->add_action( 'wp_ajax_linsila_sort_lists', $this->lists, 'ajax_sort_lists' );
+		$this->loader->add_action( 'wp_ajax_linsila_save_job_title', $this->jobs, 'ajax_save_job_title' );
 	}
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

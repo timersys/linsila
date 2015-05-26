@@ -101,6 +101,22 @@ body{
 .chosen-container .add-client{
     float: right;
 }
+.job-title {
+    float: left;
+    cursor: pointer;
+    color: #888888;
+}
+.job-title-container textarea {
+    display: block;
+}
+
+.job-title-container .placeholder,
+.job-title-container.idle textarea{
+    display: none;
+}
+.job-title-container.idle .placeholder{
+    display: block;
+}
 /* ADD LISTS */
 .add-a-list{
     min-height: 30px;
@@ -145,31 +161,33 @@ body{
     display: none;
     margin: 0;
 }
-.add-a-list.idle .placeholder {
+.add-a-list .placeholder {
+display: none;
+padding: 7px;
+color: #fff;
+-webkit-transition: color 85ms ease-in;
+transition: color 85ms ease-in;
+}
+
+/* editable Controls */
+.idle .placeholder {
     display: block;
 }
-.add-a-list .placeholder {
-    display: none;
-    padding: 7px;
-    color: #fff;
-    -webkit-transition: color 85ms ease-in;
-    transition: color 85ms ease-in;
-}
-.add-a-list.idle .edit-controls {
+.idle .edit-controls {
     height: 0;
     margin: 0;
 }
-.add-a-list .edit-controls {
+.edit-controls {
     -webkit-transition: margin 85ms ease-in,height 85ms ease-in;
     transition: margin 85ms ease-in,height 85ms ease-in;
     overflow: hidden;
     margin: 0;
 }
-.add-a-list button.confirm {
+.edit-controls button.confirm {
     margin: 2px 6px;
     float: left;
 }
-.add-a-list a.cancel {
+.edit-controls a.cancel {
     float: left;
     line-height: 1.5;
     font-size: 1.5em;
