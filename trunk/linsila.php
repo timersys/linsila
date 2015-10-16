@@ -68,7 +68,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-linsila.php';
 function Linsila() {
 
 	$plugin = Linsila::instance();
-	$plugin->run();
 	return $plugin;
 
 }

@@ -105,19 +105,23 @@ class Linsila_Public {
 			'linsila-sortable',
 			'choosen-select'
 		);
-
-		foreach( $wp_scripts->queue as $handle ){
-			if( in_array($handle, $exceptions))
-				continue;
-			wp_dequeue_script($handle);
+		if( !empty( $wp_scripts->queue ) ) {
+			foreach ( $wp_scripts->queue as $handle ) {
+				if ( in_array( $handle, $exceptions ) ) {
+					continue;
+				}
+				wp_dequeue_script( $handle );
+			}
 		}
 
-		foreach( $wp_styles->queue as $handle ){
-			if( in_array($handle, $exceptions) )
-				continue;
-			wp_dequeue_style($handle);
+		if( !empty( $wp_styles->queue ) ) {
+			foreach ( $wp_styles->queue as $handle ) {
+				if ( in_array( $handle, $exceptions ) ) {
+					continue;
+				}
+				wp_dequeue_style( $handle );
+			}
 		}
-
 		// Now remove actions
 		$action_exceptions = array(
 			'wp_print_footer_scripts',
@@ -148,7 +152,7 @@ class Linsila_Public {
 		$authorized = false;
 
 		if( ! is_user_logged_in() )
-			wp_safe_redirect( wp_login_url(get_permalink( linsila_get_page_id('linsila'))));
+			wp_safe_redirect( wp_login_url( get_permalink( linsila_get_page_id('linsila') ) ) );
 
 		$authorized_roles = apply_filters('linsila/authorized_roles', array('administrator'));
 
@@ -159,5 +163,15 @@ class Linsila_Public {
 
 		if( !$authorized )
 			wp_safe_redirect( wp_login_url(get_permalink( linsila_get_page_id('linsila'))));
+	}
+
+	public function add_linsila_to_adminbar( $wp_admin_bar ) {
+		$args = apply_filters('linsila/add_linsila_to_adminbar', array(
+			'id'    => 'linsila',
+			'title' => 'Linsila',
+			'href'  => get_permalink( linsila_get_page_id('linsila') ),
+			'meta'  => array( 'class' => 'my-toolbar-page' )
+		) );
+		$wp_admin_bar->add_node( $args );
 	}
 }

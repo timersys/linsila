@@ -36,15 +36,6 @@ final class Linsila {
 	public $clients;
 	public $jobs;
 
-	/**
-	 * The loader that's responsible for maintaining and registering all hooks that power
-	 * the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   protected
-	 * @var      Linsila_Loader    $loader    Maintains and registers all hooks for the plugin.
-	 */
-	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -165,12 +156,10 @@ final class Linsila {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Linsila_Loader. Orchestrates the hooks of the plugin.
 	 * - Linsila_i18n. Defines internationalization functionality.
 	 * - Linsila_Admin. Defines all hooks for the admin area.
 	 * - Linsila_Public. Defines all hooks for the public side of the site.
 	 *
-	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -181,7 +170,6 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-page-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-lists-functions.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions/linsila-template-functions.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-i18n.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-linsila-admin.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-linsila-public.php';
@@ -192,7 +180,6 @@ final class Linsila {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-clients.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-linsila-jobs.php';
 
-		$this->loader       = new Linsila_Loader();
 		$this->clients      = new Linsila_Clients();
 	}
 
@@ -210,7 +197,7 @@ final class Linsila {
 		$plugin_i18n = new Linsila_i18n();
 		$plugin_i18n->set_domain( $this->get_linsila() );
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		add_action( 'plugins_loaded', array( $plugin_i18n, 'load_plugin_textdomain' ) );
 
 	}
 
@@ -227,10 +214,10 @@ final class Linsila {
 		$cpts = new Linsila_Cpts( $this->get_linsila(), $this->get_version() );
 
 		//Register all custom post types & taxonomies
-		$this->loader->add_action( 'init', $cpts, 'register_cpts' );
+		add_action( 'init', array( $cpts, 'register_cpts' ) );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $plugin_admin, 'enqueue_scripts' ) );
 
 	}
 
@@ -245,13 +232,14 @@ final class Linsila {
 
 		$plugin_public = new Linsila_Public( $this->get_linsila(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		add_action( 'wp_enqueue_scripts', array( $plugin_public, 'enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $plugin_public, 'enqueue_scripts' ) );
 		// if we are in linsila remove everything from header/footer, scripts, styles
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'remove_all_actions',99 );
+		add_action( 'wp_enqueue_scripts', array( $plugin_public, 'remove_all_actions'),99 );
 		// check if user is authorized to be in linsila
-		$this->loader->add_action( 'wp', $plugin_public, 'check_user_authorization' );
+		add_action( 'wp', array( $plugin_public, 'check_user_authorization' ) );
 
+		add_action( 'admin_bar_menu', array( $plugin_public, 'add_linsila_to_adminbar' ), 999 );
 
 	}
 
@@ -266,17 +254,9 @@ final class Linsila {
 		$this->lists = new Linsila_Lists( $this->get_linsila(), $this->get_version() );
 		$this->jobs  = new Linsila_Jobs( $this->get_linsila(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_ajax_linsila_create_list', $this->lists, 'ajax_create_list' );
-		$this->loader->add_action( 'wp_ajax_linsila_sort_lists', $this->lists, 'ajax_sort_lists' );
-		$this->loader->add_action( 'wp_ajax_linsila_save_job_title', $this->jobs, 'ajax_save_job_title' );
-	}
-	/**
-	 * Run the loader to execute all of the hooks with WordPress.
-	 *
-	 * @since    1.0.0
-	 */
-	public function run() {
-		$this->loader->run();
+		add_action( 'wp_ajax_linsila_create_list', array( $this->lists, 'ajax_create_list' ) );
+		add_action( 'wp_ajax_linsila_sort_lists', array( $this->lists, 'ajax_sort_lists' ) );
+		add_action( 'wp_ajax_linsila_save_job_title', array( $this->jobs, 'ajax_save_job_title' ) );
 	}
 
 	/**
@@ -288,16 +268,6 @@ final class Linsila {
 	 */
 	public function get_linsila() {
 		return $this->plugin_slug;
-	}
-
-	/**
-	 * The reference to the class that orchestrates the hooks with the plugin.
-	 *
-	 * @since     1.0.0
-	 * @return    Linsila_Loader    Orchestrates the hooks of the plugin.
-	 */
-	public function get_loader() {
-		return $this->loader;
 	}
 
 	/**
@@ -334,10 +304,10 @@ final class Linsila {
 		$templates = new Linsila_Templates( $this->plugin_slug, $this->version);
 
 		// Add a filter to the page attributes metabox to inject our template into the page template cache.
-		$this->loader->add_filter( 'page_attributes_dropdown_pages_args', $templates, 'register_project_templates');
+		add_filter( 'page_attributes_dropdown_pages_args', array( $templates, 'register_project_templates' ) );
 		// Add a filter to the save post in order to inject out template into the page cache
-		$this->loader->add_filter( 'wp_insert_post_data', $templates, 'register_project_templates');
+		add_filter( 'wp_insert_post_data', array( $templates, 'register_project_templates' ) );
 		// Add a filter to the template include in order to determine if the page has our template assigned and return it's path
-		$this->loader->add_filter( 'template_include', $templates, 'view_project_template');
+		add_filter( 'template_include', array( $templates, 'view_project_template' ) );
 	}
 }

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function linsila_get_page_id( $page ) {
 
-	$page = apply_filters( 'linsila/get_' . $page . '_page_id', get_option('linsila_' . $page . '_page_id' ) );
+	$page = apply_filters( 'linsila/get_' . $page . '_page_id', get_option('linsila_' . $page . '_page_id' ), $page );
 
 	return $page ? absint( $page ) : -1;
 }
