@@ -106,16 +106,28 @@ body{
     cursor: pointer;
     color: #888888;
 }
-.job-title-container textarea {
+.js-editable textarea {
     display: block;
 }
 
-.job-title-container .placeholder,
-.job-title-container.idle textarea{
+.js-editable .placeholder,
+.js-editable.idle textarea{
     display: none;
 }
-.job-title-container.idle .placeholder{
+.js-editable.idle .placeholder{
     display: block;
+}
+.job-title-container,
+.job-category-container {
+    float: left;
+}
+.job-category-container {
+    font-size: .8em;
+}
+.job-title-container .job-title,
+.job-title-container .job-category {
+    font-size: 1em;
+    display: inline-block;
 }
 /* ADD LISTS */
 .add-a-list{
@@ -176,6 +188,7 @@ transition: color 85ms ease-in;
 .idle .edit-controls {
     height: 0;
     margin: 0;
+    display: none;
 }
 .edit-controls {
     -webkit-transition: margin 85ms ease-in,height 85ms ease-in;
@@ -184,7 +197,7 @@ transition: color 85ms ease-in;
     margin: 0;
 }
 .edit-controls button.confirm {
-    margin: 2px 6px;
+    margin: 0 6px 0 0;
     float: left;
 }
 .edit-controls a.cancel {

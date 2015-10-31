@@ -33,10 +33,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div id="js-new-job" class="reveal-modal medium" data-reveal aria-labelledby="add-job-title" aria-hidden="true" role="dialog">
 	<div class="job-title-container js-editable idle">
-		<h3 class="job-title placeholder">Job Title........</h3>
+		<div class="job-title placeholder">Job Title........</div>
 		<textarea name="job-title" id="job-title" class="js-input" placeholder="Job Title........" data-action="linsila_save_job_title"></textarea>
 		<?php linsila_edit_controls( 'js-save-job-title' );?>
-	</div> - <h4>In progress</h4>
+	</div>
+	<div class="job-category-container js-editable-select idle"> - <span>In progress</span>
+		<select name="job-category" id="job-category" class="js-input" data-action="linsila_save_job_category">
+			<?php
+			foreach( $lists as $list ) {
+				echo '<option value="'.$list->term_id.'">'.$list->name.'</option>';
+			}
+			?>
+		</select>
+		<?php linsila_edit_controls( 'js-save-job-category' );?>
+	</div>
 	<form data-abide>
 		<div class="row">
 			<div class="large-8 columns">

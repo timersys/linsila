@@ -17,7 +17,7 @@
                     return false;
                 $(this).removeClass('idle');
                 var placeholder_val = $(this).find('.placeholder').text();
-                $(this).find('.js-input').val(placeholder_val).focus();
+                $(this).find('.js-input').val(placeholder_val).focus().select();
             });
             $('.js-editable .cancel').click(function (e) {
                 e.preventDefault();
@@ -40,9 +40,9 @@
                     button.prop('disabled', false).removeClass('ajax-loading');
                     input.val('');
                     if( data.success ) {
-                        editable_box.addClass('idle');
                         data.input_val = input_val;
                         editable_actions(input.data('action'), data);
+                        editable_box.addClass('idle');
                     }
                     if( data.error ) {
                         show_alert( data.error, 'alert');
@@ -84,7 +84,7 @@
             if( action == 'linsila_create_list') {
                 $('<div class="list" data-id="'+data.success.term_id+'"><div class="list-header"><div class="handle">|||</div>'+data.input_val+'<div class="list-actions">x</div></div></div>').appendTo('#lists-container');
             } else if (action == 'linsila_save_job_title' ) {
-                $('h3.job-title').text(data.input_val);
+                $('.job-title').text(data.input_val);
             }
         }
 
